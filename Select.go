@@ -19,13 +19,15 @@ func main() {
 	go func() {
 		for {
 			c2 <- "every 2 seconds";
-			time.Sleep(time.Millisecond * 2)
+			time.Sleep(time.Second * 2)
 		}
 		
 	}()
 	
 	for {
-		fmt.Println(<-c1)
-		fmt.Println(<-c2)
+		select {
+			case msg1 := <- c1: fmt.Println(msg1)
+			case msg2 := <- c2: fmt.Println(msg2)
+		}
 	}
 }
